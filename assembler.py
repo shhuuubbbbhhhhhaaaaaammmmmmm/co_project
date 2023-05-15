@@ -10,6 +10,7 @@ lst2 = ['div', 'mov', 'ld ', 'st ', 'rs ', 'ls ', 'not', 'cmp']
 lst3=['jmp','jlt','jgt','je ']
 import random
 vardict={}
+f1=open("output.txt",'a')
 for i in l:
     i=i.strip()
     l1.append(i)
@@ -24,7 +25,7 @@ for i in l1:
     if (a in lst and a!='or ') :
         # if (i[4:6] and i[7:9] and i[10:12])!=('R0' or 'R1' or 'R2' or 'R3' or 'R4' or 'R5' or 'R6') :
         #     print("error")
-        
+
         Rg1 = i[4:6]
         Rg2 = i[7:9]
         Rg3 = i[10:12]
@@ -44,7 +45,7 @@ for i in l1:
         s+=rg1
         s+=rg2
         s+=rg3
-    
+
     elif a in lst2 and (i[7:9] and i[4:6]) in registers.values() :
         Regis1 = i[4:6]
         regis2 = i[7:9]
@@ -52,7 +53,7 @@ for i in l1:
         rg2=registers[regis2]
         s+=rg1
         s+=rg2
-    
+
     elif a == 'mov' and i[4:6] in registers.keys() :
         regis1 = i[4:6]
         if i[7:8]=="R":
@@ -73,7 +74,7 @@ for i in l1:
             rg1=registers[regis1]
             s+=rg1
             s+=imm
-    
+
     if (a == 'ld ' or 'st ') and i[3:5] in registers.keys(): 
         regis1 = i[3:5]
         rg1=registers[regis1]
@@ -104,7 +105,7 @@ for i in l1:
             bmem_addr=bmem_addr[2::]
             vardict[imm]=bmem_addr
         s+=bmem_addr
-    
+
     elif (a == 'rs ' or 'ls ') and i[3:5] in registers.keys() :
         regis1 = i[3:5]
         rg1=registers[regis1]
@@ -141,7 +142,7 @@ for i in l1:
                     st="0"*t
                     st+=imm
                     imm=st
-            
+
         else:
             imm=i[4::]
             while bmem_addr not in vardict.values():
@@ -157,10 +158,14 @@ for i in l1:
         s+=bmem_addr
     elif "hlt" in i:
         s="1101000000000000"
-        print(s)
+        # print(s)
+        f1.write(s) 
+        f1.write("\n")
         break
     if len(s)<16:
         st="0"*(16-len(s))
         s=s[0:5]+st+s[5::]
-    print(s)
+        f1.write(s) 
+        f1.write("\n")
+f1.close()
 print()
