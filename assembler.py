@@ -10,7 +10,7 @@ lst2 = ['div', 'mov', 'ld ', 'st ', 'rs ', 'ls ', 'not', 'cmp']
 lst3=['jmp','jlt','jgt','je ']
 import random
 vardict={}
-f1=open("output.txt",'a')
+f1=open("stdout.txt",'a')
 for i in l:
     i=i.strip()
     l1.append(i)
