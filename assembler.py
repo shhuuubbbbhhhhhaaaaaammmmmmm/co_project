@@ -10,7 +10,7 @@ lst2 = ['div', 'mov', 'ld ', 'st ', 'rs ', 'ls ', 'not', 'cmp']
 lst3=['jmp','jlt','jgt','je ']
 import random
 vardict={}
-f1=open("stdout.txt",'a')
+f1=open("stdout.txt",'w')
 for i in l:
     i=i.strip()
     l1.append(i)
@@ -20,9 +20,10 @@ for i in l1:
         continue
     s=''
     a=i[0:3]
-    b=opcodes[a]
-    s+=b
-    if (a in lst and a!='or ') :
+    if a in opcodes.keys():
+        b=opcodes[a]
+        s+=b
+    if (a in lst and a!='or ') and i[4:6] in registers.keys() and i[7:9] in registers.keys() and i[10:12] in registers.keys() :
         # if (i[4:6] and i[7:9] and i[10:12])!=('R0' or 'R1' or 'R2' or 'R3' or 'R4' or 'R5' or 'R6') :
         #     print("error")
 
@@ -75,7 +76,7 @@ for i in l1:
             s+=rg1
             s+=imm
 
-    if (a == 'ld ' or 'st ') and i[3:5] in registers.keys(): 
+    elif (a == 'ld ' or 'st ') and i[3:5] in registers.keys(): 
         regis1 = i[3:5]
         rg1=registers[regis1]
         mem_addr=i[6::]
@@ -162,10 +163,17 @@ for i in l1:
         f1.write(s) 
         f1.write("\n")
         break
+    else:
+        s = "ERROR"
+        f1.write(s) 
+        f1.write("\n")
+        continue
+
     if len(s)<16:
         st="0"*(16-len(s))
         s=s[0:5]+st+s[5::]
         f1.write(s) 
         f1.write("\n")
+
 f1.close()
 print()
