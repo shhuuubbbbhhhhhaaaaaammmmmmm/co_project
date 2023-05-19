@@ -1,7 +1,7 @@
 # co_project
 This repository contains the code for Computer Organisation(CO) group project of Btech 1st year IIITD. students in the group: 
 Sarthak Singh : 2022457 
-Shubham : 2022448
+Shubham : 2022488
 Sachin Maurya : 2022424
 Sankalp Raj : 2022445
 
