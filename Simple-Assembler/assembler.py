@@ -1,6 +1,6 @@
 import sys
 pc = 0
-
+#
 regname = {
     "R0":"000",
     "R1":"001",
