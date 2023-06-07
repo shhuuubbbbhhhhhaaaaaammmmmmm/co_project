@@ -241,17 +241,19 @@ def funC(op: str, r1: str, r2: str):
 
     # Compare Done
     elif (op == "01110"):
-
+        reg[7]=2
+        
         if (reg[val1] > reg[val2]):
-            reg[7] |= (1 << 1)
-
+            # reg[7] |= (1 << 1)
+            reg[7]=2
         elif (reg[val1] < reg[val2]):
-            reg[7] |= (1 << 2)
-
+            # reg[7] |= (1 << 2)
+            reg[7]=4
         elif (reg[val1] == reg[val2]):
-            reg[7] |= (1 << 0)
-        reg[7] = 2
-
+            # reg[7] |= (1 << 0)
+            reg[7] = 1
+        reg[7]=2
+        
 
 def funD(op: str, r1: str, mem_addr: str):
 
@@ -388,7 +390,7 @@ def start(inst: int):
 
 
 def exit_s(pc: int):
-    print(cst(pc, 8), end='        ')
+    print(cst(pc, 7), end='        ')
     for i in reg:
         print(cst(i, 16), end=' ')
     print()
