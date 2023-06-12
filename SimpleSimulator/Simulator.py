@@ -77,9 +77,9 @@ def dec(nm: str) -> float:
 dct = {'00000': 'A', '00001': 'A', '00110': 'A', '01010': 'A', '01011': 'A', '01100': 'A', '00000': 'A', '00001': 'A', '00010': 'B', '01000': 'B', '01001': 'B',
        '00010': 'B',  '00011': 'C', '00111': 'C', '01101': 'C', '01110': 'C', '00100': 'D', '00101': 'D', '01111': 'E', '11100': 'E', '11101': 'E', '11111': 'E', '11010': 'F'}
 
-# flags = {"overflow": False, "Less than Flag": False, "Greater than flag": False,"Equal to flag": False}
+                # flags = {"overflow": False, "Less than Flag": False, "Greater than flag": False,"Equal to flag": False}
 
-# FV(7) , FL(8) , FG(9) , FE(10) is flag reg for overflow, less than, greater than, equal to
+                # FV(7) , FL(8) , FG(9) , FE(10) is flag reg for overflow, less than, greater than, equal to
 
 nm = 0
 val = 0
@@ -102,21 +102,12 @@ def funA(op: str, r1: str, r2: str, r3: str):
     val3 = int(r3, 2)
 
     global reg
-
-    # print(f"{reg[val1]} : {val1}")
-    # print(f"{reg[val2]} : {val2}")
-    # print(f"{reg[val3]} : {val3}")
-
-    # Add Done
+    
     if (op == "00000"):
         reuse()
         reg[val1] = reg[val2]+reg[val3]
 
-        # if(reg[val3] >= 65536):
-        #     reg[7] |= (1 << 3)
-        #     reg[val3] %= 65536
-
-    # Subtract Done
+        
     elif (op == "00001"):
         reuse()
         if reg[val1] >= reg[val2]:
@@ -125,7 +116,6 @@ def funA(op: str, r1: str, r2: str, r3: str):
             reg[val3] = 0
             reg[7] |= (1 << 3)
 
-    # Multiply Done
     elif (op == "00110"):
         reuse()
         reg[val3] = reg[val2] * reg[val1]
@@ -134,7 +124,6 @@ def funA(op: str, r1: str, r2: str, r3: str):
             reg[val3] %= 65536
             reg[7] |= (1 << 3)
 
-    # XOR Done
     elif (op == "01010"):
         reuse()
         for i in range(16):
@@ -143,7 +132,6 @@ def funA(op: str, r1: str, r2: str, r3: str):
             elif reg[val3] & (1 << i):
                 reg[val3] ^= (1 << i)
 
-    # OR Done
     elif (op == "01011"):
         reuse()
         temp = 0
@@ -151,7 +139,6 @@ def funA(op: str, r1: str, r2: str, r3: str):
             if reg[val1] & (1 << i) | reg[val2] & (1 << i):
                 reg[val3] |= (1 << i)
 
-    # AND Done
     elif (op == "01100"):
         reuse()
         temp = 0
@@ -160,59 +147,25 @@ def funA(op: str, r1: str, r2: str, r3: str):
                 temp |= (1 << i)
         reg[val3] = temp
 
-    # #ADDF Leaving now
-    # elif(op == "00000"):
-    #     reuse()
-    #     temp1=cst(reg[val1],8)
-    #     temp2=cst(reg[val2],8)
-    #     x = dec(temp1)+dec(temp2)
-    #     if(x > 252):
-    #         reg[7] |= (1 << 3)
-    #         reg[val3] = 255
-    #     elif(bin_down(x) == '0'):
-    #         reg[val3] = 0
-    #         reg[7] |= (1 << 3)
-    #     else:
-    #         reg[val3] = int(bin_down(x), 2)
-
-    # #SUBF Leaving Now
-    # elif(op == "00001"):
-    #     reuse()
-    #     temp1=cst(reg[val1],8)
-    #     temp2=cst(reg[val2],8)
-    #     x=bin_down(dec(temp1) - dec(temp2))
-    #     if(x=="0"):
-    #         reg[val3] = 0
-    #         reg[7] |= (1 << 3)
-    #     else:
-    #         reg[val3] = int(x, 2)
-
 
 def funB(op: str, r1: str, imm: str):
 
     val1 = int(r1, 2)
     imm = int(imm, 2)
 
-    # Mov Immediate Done Now
     if (op == "00010"):
         reuse()
         reg[val1] = imm
 
-    # LeftShift Done
     elif (op == "01001"):
         reuse()
         reg[val1] = reg[val1] << imm
 
-    # RightShift Done
     elif (op == "01000"):
         reuse()
         reg[val1] = reg[val1] >> imm
 
-    # #MOVF  Leaving Now
-    # elif(op=="00010"):
-    #     reuse()
-    #     reg[val1]=imm
-
+  
 
 def funC(op: str, r1: str, r2: str):
 
@@ -222,24 +175,21 @@ def funC(op: str, r1: str, r2: str):
         reg[val1] = "001"
     if val2 == "111":
         reg[val2] = "001"
-    # Mov Reg Done
+
     if (op == "00011"):
         reg[val2] = reg[val1]
         reuse()
 
-    # Divide Done
     elif (op == "00111"):
         reuse()
         reg[0] = reg[val1]//reg[val2]
         reg[1] = reg[val1] % reg[val2]
 
-    # Invert Done
     elif (op == "01101"):
         reg[val2] = reg[val1]
         for i in range(16):
             reg[val2] ^= (1 << i)
 
-    # Compare Done
     elif (op == "01110"):
         reg[7]=2
         
@@ -260,14 +210,12 @@ def funD(op: str, r1: str, mem_addr: str):
     val1 = int(r1, 2)
     val_mem = int(mem_addr, 2)
 
-    # load Done
     if (op == "00100"):
         new_m(val_mem)
         reg[val1] = mem_m[val_mem]
         reuse()
         return
 
-    # store Done
     elif (op == "00101"):
         new_m(val_mem)
         mem_m[val_mem] = reg[val1]
@@ -280,24 +228,20 @@ def funE(op: str, mem_addr: str):
     global pc_n
     val_mem = int(mem_addr, 2)
 
-    # unconditional jump Done
     if (op == "01111"):
         pc_n = val_mem - 1
         reuse()
 
-    # jump if less Done
     elif (op == "11100"):
         if (reg[7] == 4 or reg[7] == 12):
             pc_n = val_mem - 1
         reuse()
 
-    # jump if greater Done
     elif (op == "11101"):
         if (reg[7] == 2 or reg[7] == 10):
             pc_n = val_mem - 1
         reuse()
 
-    # jump if equal Done
     elif (op == "11111"):
         if (reg[7] == 1 or reg[7] == 9):
             pc_n = val_mem - 1
@@ -307,12 +251,10 @@ def funE(op: str, mem_addr: str):
 def printop1(op: str, r1: str, imm: str):
     val1 = int(r1, 2)
 
-    # Print Register Value
     if op == "01000":
         print(f"{val1}: {reg[val1]}")
         reuse()
 
-    # Print Immediate Value
     elif op == "01001":
         immediate = int(imm, 2)
         print(f"{immediate}")
@@ -322,12 +264,10 @@ def printop1(op: str, r1: str, imm: str):
 def printop2(op: str, r1: str, imm: str):
     val1 = int(r1, 2)
 
-    # Print Register Value
     if op == "00111":
         print(f"{val1}: {reg[val1]}")
         reuse()
 
-    # Print Immediate Value
     elif op == "00011":
         immediate = int(imm, 2)
         print(f"{immediate}")
@@ -337,12 +277,10 @@ def printop2(op: str, r1: str, imm: str):
 def printop3(op: str, r1: str, imm: str):
     val1 = int(r1, 2)
 
-    # Print Register Value
     if op == "00101":
         print(f"{val1}: {reg[val1]}")
         reuse()
 
-    # Print Immediate Value
     elif op == "00111":
         immediate = int(imm, 2)
         print(f"{immediate}")
@@ -384,7 +322,7 @@ def start(inst: int):
     elif (mytype == 'E'):
         funE(op, k[9::])
 
-    elif (op == '11010'):  # Done
+    elif (op == '11010'):
         hlt = True
         reuse()
 
@@ -415,7 +353,6 @@ def new_m(mem_m: int):
 
 def main():
     mem_ld()
-    # global hlt
     while (not hlt):
         global pc
         global pc_n
@@ -432,6 +369,5 @@ def main():
 
     exit_m()
     return
-
 
 main()
