@@ -77,9 +77,7 @@ def dec(nm: str) -> float:
 dct = {'00000': 'A', '00001': 'A', '00110': 'A', '01010': 'A', '01011': 'A', '01100': 'A', '00000': 'A', '00001': 'A', '00010': 'B', '01000': 'B', '01001': 'B',
        '00010': 'B',  '00011': 'C', '00111': 'C', '01101': 'C', '01110': 'C', '00100': 'D', '00101': 'D', '01111': 'E', '11100': 'E', '11101': 'E', '11111': 'E', '11010': 'F'}
 
-                # flags = {"overflow": False, "Less than Flag": False, "Greater than flag": False,"Equal to flag": False}
-
-                # FV(7) , FL(8) , FG(9) , FE(10) is flag reg for overflow, less than, greater than, equal to
+              
 
 nm = 0
 val = 0
